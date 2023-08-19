@@ -1,6 +1,7 @@
-module github.com/0xPolygon/go-ibft
+module github.com/nnlgsakib/go-ibft
 
-go 1.19
+
+
 
 require (
 	github.com/armon/go-metrics v0.4.1
@@ -20,3 +21,5 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
+
+go 1.20

@@ -82,7 +82,7 @@ linters-settings:
     numbers: true
 
   goimports:
-    local-prefixes: github.com/0xPolygon/go-ibft
+    local-prefixes: github.com/nnlgsakib/go-ibft
                     github.com/armon/go-metrics
     
 

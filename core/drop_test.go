@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/0xPolygon/go-ibft/messages"
-	"github.com/0xPolygon/go-ibft/messages/proto"
+	"github.com/nnlgsakib/go-ibft/messages"
+	"github.com/nnlgsakib/go-ibft/messages/proto"
 
 	"github.com/stretchr/testify/assert"
 )

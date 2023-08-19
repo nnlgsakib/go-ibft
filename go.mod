@@ -1,15 +1,12 @@
 module github.com/nnlgsakib/go-ibft
 
-
-
-
 require (
 	github.com/armon/go-metrics v0.4.1
 	github.com/golang/protobuf v1.5.0
 	github.com/google/uuid v1.3.0
 	github.com/stretchr/testify v1.8.1
 	go.uber.org/goleak v1.2.0
-	google.golang.org/protobuf v1.28.1
+	google.golang.org/protobuf v1.31.0
 	pgregory.net/rapid v0.5.3
 )
 

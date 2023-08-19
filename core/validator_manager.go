@@ -6,16 +6,16 @@ import (
 	"math/big"
 	"sync"
 
-	"github.com/nnlgsakib/go-ibft/messages/proto"
+	"github.com/0xPolygon/go-ibft/messages/proto"
 )
 
 var (
 	errVotingPowerNotCorrect = errors.New("total voting power is zero or less")
 )
 
-// ValidatorBackend defines interface that has GetVotingPower and GetMinerAddress
+// ValidatorBackend defines an interface that has GetVotingPower and GetMinerAddress
 type ValidatorBackend interface {
-	// GetVotingPowers returns map of validators addresses and their voting powers for the specified height.
+	// GetVotingPowers returns a map of validators' addresses and their voting powers for the specified height.
 	GetVotingPowers(height uint64) (map[string]*big.Int, error)
 
 	// GetMinerAddress returns the address of the miner.
@@ -29,7 +29,7 @@ type ValidatorManager struct {
 	// quorumSize represents quorum for the height specified in the current View
 	quorumSize *big.Int
 
-	// validatorsVotingPower is a map of the validator addresses on their voting power for
+	// validatorsVotingPower is a map of the validator addresses and their voting power for
 	// the height specified in the current View
 	validatorsVotingPower map[string]*big.Int
 
@@ -41,7 +41,7 @@ type ValidatorManager struct {
 	log Logger
 }
 
-// NewValidatorManager creates new ValidatorManager
+// NewValidatorManager creates a new ValidatorManager
 func NewValidatorManager(backend ValidatorBackend, log Logger) (*ValidatorManager, error) {
 	minerAddress, err := backend.GetMinerAddress()
 	if err != nil {
@@ -69,7 +69,7 @@ func (vm *ValidatorManager) Init(height uint64) error {
 }
 
 // setCurrentVotingPower sets the current total voting power and quorum size
-// based on current validators voting power
+// based on current validators' voting power
 func (vm *ValidatorManager) setCurrentVotingPower(validatorsVotingPower map[string]*big.Int) error {
 	vm.vpLock.Lock()
 	defer vm.vpLock.Unlock()
@@ -90,7 +90,7 @@ func (vm *ValidatorManager) HasQuorum(sendersAddrs map[string]struct{}) bool {
 	vm.vpLock.RLock()
 	defer vm.vpLock.RUnlock()
 
-	// if not initialized correctly return false
+	// If not initialized correctly, return false
 	if vm.validatorsVotingPower == nil {
 		return false
 	}
@@ -111,8 +111,8 @@ func (vm *ValidatorManager) HasQuorum(sendersAddrs map[string]struct{}) bool {
 func (vm *ValidatorManager) HasPrepareQuorum(stateName stateType, proposalMessage *proto.Message,
 	msgs []*proto.Message) bool {
 	if proposalMessage == nil {
-		// If the state is in prepare phase, the proposal must be set. Otherwise, just return false since
-		// this is a valid scenario e.g. proposal msg is received before prepare msg for the same view
+		// If the state is in the prepare phase, the proposal must be set. Otherwise, just return false since
+		// this is a valid scenario, e.g., a proposal message is received before a prepare message for the same view
 		if stateName == prepare {
 			vm.log.Error("HasPrepareQuorum - proposalMessage is not set")
 		}
@@ -138,11 +138,11 @@ func (vm *ValidatorManager) HasPrepareQuorum(stateName stateType, proposalMessag
 	return vm.HasQuorum(sendersAddressesMap)
 }
 
-// calculateQuorum calculates quorum size which is FLOOR(2 * totalVotingPower / 3) + 1
+// calculateQuorum calculates the quorum size, which is FLOOR(2 * totalVotingPower / 3) + 1
 func calculateQuorum(totalVotingPower *big.Int) *big.Int {
 	quorum := new(big.Int).Mul(totalVotingPower, big.NewInt(2))
 
-	// this will floor the (2 * totalVotingPower/3) and add 1
+	// This will floor the (2 * totalVotingPower/3) and add 1
 	return quorum.Div(quorum, big.NewInt(3)).Add(quorum, big.NewInt(1))
 }
 
@@ -155,7 +155,7 @@ func calculateTotalVotingPower(validatorsVotingPower map[string]*big.Int) *big.I
 	return totalVotingPower
 }
 
-// convertMessageToAddressSet converts messages slice to addresses map
+// convertMessageToAddressSet converts a message slice to an addresses map
 func convertMessageToAddressSet(messages []*proto.Message) map[string]struct{} {
 	result := make(map[string]struct{}, len(messages))
 
